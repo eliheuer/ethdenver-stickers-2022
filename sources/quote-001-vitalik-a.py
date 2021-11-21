@@ -27,7 +27,8 @@ def draw_background():
     fill(0)
     rect(-2, -2, WIDTH + 2, HEIGHT + 2)
     if GRID_VIEW:
-        grid()
+        #grid()
+        pass
     else:
         pass
 
@@ -40,16 +41,25 @@ def draw_main_type():
     font("fonts/fraunces/Fraunces-Italic[SOFT,WONK,opsz,wght].ttf")
     for axis, data in listFontVariations().items():
         print((axis, data))
-    fontSize(96)
+    fontSize(136)
 
-    fontVariations(wght=900.0) # Range: 100.0 -> 900.0
+    fontVariations(wght=700.0) # Range: 100.0 -> 900.0
     fontVariations(opsz=144.0) # Range: 9.0 -> 144.0
     fontVariations(SOFT=100.0) # Range: 0.0 -> 100.0 
     fontVariations(WONK=1.0)   # Range: 0,0 -> 1.0
-    text("Even a billion dollars of capital", (MARGIN, MARGIN + (5*MARGIN)))
-    text("cannot compete with", (MARGIN, MARGIN + (4*MARGIN)))
-    text("a project having a soul.", (MARGIN, MARGIN + (3*MARGIN)))
-    text("—Vitalik Buterin", (MARGIN, MARGIN + (2*MARGIN)))
+    text("“", (MARGIN-8, MARGIN + (5*MARGIN)))
+    text("E", (MARGIN+49, MARGIN + (5*MARGIN)))
+    text("ven a billion dollars of capital", (MARGIN+125, MARGIN + (5*MARGIN)))
+    text("cannot compete with", (MARGIN+64, MARGIN + (4*MARGIN)))
+    text("a project having a soul.", (MARGIN+64, MARGIN + (3*MARGIN)))
+    text("”", (MARGIN+1330, MARGIN + (3*MARGIN)))
+    font("fonts/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf")
+    fontVariations(wght=700.0) # Range: 100.0 -> 900.0
+    fontVariations(opsz=144.0) # Range: 9.0 -> 144.0
+    fontVariations(SOFT=100.0) # Range: 0.0 -> 100.0 
+    fontVariations(WONK=1.0)   # Range: 0,0 -> 1.0
+    text("—", (MARGIN+64, MARGIN + (1*MARGIN)))
+    text("Vitalik Buterin", (MARGIN+150, MARGIN + (1*MARGIN)))
 
 # Build and save the image
 if __name__ == "__main__":
