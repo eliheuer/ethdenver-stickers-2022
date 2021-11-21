@@ -1,48 +1,8 @@
-# This script is meant to be run from the root level
-# of your font's git repository. For example, from a Unix terminal:
-# $ git clone my-font
-# $ cd my-font
-# $ python3 documentation/image1.py --output documentation/image1.png
-
-# Import moduels from external python packages: https://pypi.org/
-from drawbot_skia.drawbot import *
-from fontTools.ttLib import TTFont
-from fontTools.misc.fixedTools import floatToFixedToStr
-
-# Import moduels from the Python Standard Library: https://docs.python.org/3/library/
-import subprocess
-import sys
-import argparse
+from drawBot import *
 
 # Constants, these are the main "settings" for the image
 WIDTH, HEIGHT, MARGIN, FRAMES = 2048, 2048, 128, 1
-FONT_PATH = "fonts/ttf/Rubik-Regular.ttf"
-FONT_LICENSE = "OFL v1.1"
-AUXILIARY_FONT = "Helvetica"
-AUXILIARY_FONT_SIZE = 48
-BIG_TEXT = "Aa"
-BIG_TEXT_FONT_SIZE = 1024
-BIG_TEXT_SIDE_MARGIN = MARGIN * 3.1
-BIG_TEXT_BOTTOM_MARGIN = MARGIN * 5.5
-GRID_VIEW = False # Change this to "True" for a grid overlay
-
-# Handel the "--output" flag
-# For example: $ python3 documentation/image1.py --output documentation/image1.png
-parser = argparse.ArgumentParser()
-parser.add_argument("--output", metavar="PNG", help="where to write the PNG file")
-args = parser.parse_args()
-
-# Load the font with the parts of fonttools that are imported with the line:
-# from fontTools.ttLib import TTFont
-# Docs Link: https://fonttools.readthedocs.io/en/latest/ttLib/ttFont.html
-ttFont = TTFont(FONT_PATH)
-
-# Constants that are worked out dynamically
-MY_URL = subprocess.check_output("git remote get-url origin", shell=True).decode()
-MY_HASH = subprocess.check_output("git rev-parse --short HEAD", shell=True).decode()
-FONT_NAME = ttFont["name"].getDebugName(4)
-FONT_VERSION = "v%s" % floatToFixedToStr(ttFont["head"].fontRevision, 16)
-
+GRID_VIEW = False # Change this from "False" to "True" for a grid overlay
 
 # Draws a grid
 def grid():
@@ -61,16 +21,6 @@ def grid():
     polygon((0, HEIGHT / 2), (WIDTH, HEIGHT / 2))
 
 
-# Remap input range to VF axis range
-# This is useful for animation
-# (E.g. sinewave(-1,1) to wght(100,900))
-def remap(value, inputMin, inputMax, outputMin, outputMax):
-    inputSpan = inputMax - inputMin  # FIND INPUT RANGE SPAN
-    outputSpan = outputMax - outputMin  # FIND OUTPUT RANGE SPAN
-    valueScaled = float(value - inputMin) / float(inputSpan)
-    return outputMin + (valueScaled * outputSpan)
-
-
 # Draw the page/frame and a grid if "GRID_VIEW" is set to "True"
 def draw_background():
     newPage(WIDTH, HEIGHT)
@@ -83,53 +33,69 @@ def draw_background():
 
 
 # Draw main text
-def draw_main_text():
+def draw_main_type():
+    draw_background()
     fill(1)
     stroke(None)
-    font(FONT_PATH)
-    fontSize(BIG_TEXT_FONT_SIZE)
-    # Adjust this line to center main text manually.
-    # TODO: This should be done automatically when drawbot-skia
-    # has support for textBox() and FormattedString
-    #text(BIG_TEXT, ((WIDTH / 2) - MARGIN * 4.75, (HEIGHT / 2) - MARGIN * 2.5))
-    text(BIG_TEXT, (BIG_TEXT_SIDE_MARGIN, BIG_TEXT_BOTTOM_MARGIN))
+    font("fonts/fraunces/Fraunces-Italic[SOFT,WONK,opsz,wght].ttf")
+    for axis, data in listFontVariations().items():
+        print((axis, data))
+    fontSize(96)
 
+    fontVariations(wght=900.0) # Range: 100.0 -> 900.0
+    fontVariations(opsz=144.0) # Range: 9.0 -> 144.0
+    fontVariations(SOFT=100.0) # Range: 0.0 -> 100.0 
+    fontVariations(WONK=1.0)   # Range: 0,0 -> 1.0
+    text("Ethereum is Solarpunk", (MARGIN, MARGIN + (13*MARGIN)))
 
-# Divider lines
-def draw_divider_lines():
-    stroke(1)
-    strokeWidth(4)
-    lineCap("round")
-    line((MARGIN, HEIGHT - MARGIN), (WIDTH - MARGIN, HEIGHT - MARGIN))
-    line((MARGIN, MARGIN + (MARGIN / 2)), (WIDTH - MARGIN, MARGIN + (MARGIN / 2)))
-    stroke(None)
+    fontVariations(wght=100.0) # Range: 100.0 -> 900.0
+    fontVariations(opsz=9.0)   # Range: 9.0 -> 144.0
+    fontVariations(SOFT=100.0) # Range: 0.0 -> 100.0 
+    fontVariations(WONK=1.0)   # Range: 0,0 -> 1.0
+    text("Ethereum is Solarpunk", (MARGIN, MARGIN + (12*MARGIN)))
 
+    fontVariations(wght=900.0) # Range: 100.0 -> 900.0
+    fontVariations(opsz=144.0) # Range: 9.0 -> 144.0
+    fontVariations(SOFT=100.0) # Range: 0.0 -> 100.0 
+    fontVariations(WONK=1.0)   # Range: 0,0 -> 1.0
+    text("Ethereum is Solarpunk", (MARGIN, MARGIN + (11*MARGIN)))
 
-# Draw text describing the font and it's git status & repo URL
-def draw_auxiliary_text():
-    # Setup
-    font(AUXILIARY_FONT)
-    fontSize(AUXILIARY_FONT_SIZE)
-    POS_TOP_LEFT = (MARGIN, HEIGHT - MARGIN * 1.5)
-    POS_TOP_RIGHT = (WIDTH - MARGIN, HEIGHT - MARGIN * 1.5)
-    POS_BOTTOM_LEFT = (MARGIN, MARGIN)
-    POS_BOTTOM_RIGHT = (WIDTH - MARGIN * 0.95, MARGIN)
-    URL_AND_HASH = MY_URL + "at commit " + MY_HASH
-    URL_AND_HASH = URL_AND_HASH.replace("\n", " ")
-    # Draw Text
-    text(FONT_NAME, POS_TOP_LEFT, align="left")
-    text(FONT_VERSION, POS_TOP_RIGHT, align="right")
-    text(URL_AND_HASH, POS_BOTTOM_LEFT, align="left")
-    text(FONT_LICENSE, POS_BOTTOM_RIGHT, align="right")
+    font("fonts/ferrite-core/FerriteCoreDX-Black.ttf")
+    text("Take the Green Pill", (MARGIN, MARGIN + (10*MARGIN)))
 
+    font("fonts/ferrite-core/FerriteCoreDX-Black.ttf")
+    text("Regen > Degen", (MARGIN, MARGIN + (9*MARGIN)))
+
+    font("fonts/bobo/Bobo.ttf")
+    text("TAKE THE GREEN PILL", (MARGIN, MARGIN + (8*MARGIN)))
+
+    font("fonts/rompacta/Rompacta.ttf")
+    text("TAKE THE GREEN PILL", (MARGIN, MARGIN + (7*MARGIN)))
+
+    font("fonts/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf")
+    fontVariations(wght=900.0) # Range: 100.0 -> 900.0
+    fontVariations(opsz=144.0) # Range: 9.0 -> 144.0
+    fontVariations(SOFT=70.0) # Range: 0.0 -> 100.0 
+    fontVariations(WONK=1.0)   # Range: 0,0 -> 1.0
+    text("Ethereum was not made to make you rich.", (MARGIN, MARGIN + (6*MARGIN)))
+    text("Ethereum was made to make you free.", (MARGIN, MARGIN + (5.2*MARGIN)))
+
+    font("fonts/print-shope/PrintShope.ttf")
+    text("TAKE THE GREEN PILL", (MARGIN, MARGIN + (4*MARGIN)))
+
+    font("fonts/fraunces/Fraunces-Italic[SOFT,WONK,opsz,wght].ttf")
+    text("Take me to the Quadratic Lands", (MARGIN, MARGIN + (3*MARGIN)))
+
+    font("fonts/bach/Bach.ttf")
+    text("TAKE me to the Quadratic Lands", (MARGIN, MARGIN + (2*MARGIN)))
+
+    font("fonts/bachlin/Bachlin.ttf")
+    text("TAKE me to the Quadratic Lands", (MARGIN, MARGIN + (1*MARGIN)))
 
 # Build and save the image
 if __name__ == "__main__":
-    draw_background()
-    draw_main_text()
-    draw_divider_lines()
-    draw_auxiliary_text()
+    draw_main_type()
     # Save output, using the "--output" flag location
-    saveImage(args.output)
+    saveImage("typography-sketches-001.png")
     # Print done in the terminal
-    print("DrawBot: Done")
+    print("DrawBot: Done :-)")
