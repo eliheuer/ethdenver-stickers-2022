@@ -1,10 +1,16 @@
+# | drawbot.com | use drawbot-skia on GNU+Linux systems
 from drawBot import *
 
+
 # Constants, these are the main "settings" for the image
-WIDTH, HEIGHT, MARGIN, FRAMES = 2048, 1024, 128, 1
+WIDTH = 2048
+HEIGHT = 1024
+MARGIN = 128
+FRAMES = 1
 GRID_VIEW = True # Change this from "False" to "True" for a grid overlay
 
-# Draws a grid
+
+# Draw a grid if the constant "GRID_VIEW" is set to "True"
 def grid():
     stroke(1, 0, 0, 0.75)
     strokeWidth(2)
@@ -27,33 +33,23 @@ def draw_background():
     fill(0)
     rect(-2, -2, WIDTH + 2, HEIGHT + 2)
     if GRID_VIEW:
-        #grid()
-        pass
+        grid()
     else:
         pass
 
 
-# Draw main text
-def draw_main_type():
+def draw_image():
     draw_background()
-    fill(1)
+    fill(0.95)
     stroke(None)
-    #font("fonts/bobo/Bobo.ttf")
-    #font("fonts/rompacta/Rompacta.ttf")
-    font("fonts/print-shope/PrintShope.ttf")
+    font("fonts/print-shoppe/PrintShoppe-Regular.ttf")
     for axis, data in listFontVariations().items():
         print((axis, data))
     fontSize(350)
-    tracking(-4)
-    #text("Regen > Degen", (MARGIN-5, MARGIN + (0*MARGIN)))
-    text("REGEN>DEGEN", (MARGIN+64, MARGIN + (0*MARGIN)))
-    text("REGEN>DEGEN", (MARGIN+64, MARGIN + (2*MARGIN)))
-    text("REGEN>DEGEN", (MARGIN+64, MARGIN + (4*MARGIN)))
+    text("REGEN>DEGEN", (MARGIN+39, MARGIN + (2*MARGIN)))
 
 # Build and save the image
 if __name__ == "__main__":
-    draw_main_type()
-    # Save output, using the "--output" flag location
+    draw_image()
     saveImage("quote-004-regen-degen.png")
-    # Print done in the terminal
     print("DrawBot: Done :-)")
