@@ -27,7 +27,7 @@ def draw_background():
     fill(0)
     rect(-2, -2, WIDTH + 2, HEIGHT + 2)
     if GRID_VIEW:
-        #grid()
+        grid()
         pass
     else:
         pass
@@ -38,33 +38,32 @@ def draw_main_type():
     draw_background()
     fill(1)
     stroke(None)
-    font("fonts/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf")
+    font("fonts/fraunces/Fraunces-Italic[SOFT,WONK,opsz,wght].ttf")
     for axis, data in listFontVariations().items():
         print((axis, data))
-    fontSize(94.3)
+    fontSize(136)
 
-    fontVariations(wght=900.0) # Range: 100.0 -> 900.0
+    fontVariations(wght=700.0) # Range: 100.0 -> 900.0
     fontVariations(opsz=144.0) # Range: 9.0 -> 144.0
     fontVariations(SOFT=100.0) # Range: 0.0 -> 100.0 
     fontVariations(WONK=1.0)   # Range: 0,0 -> 1.0
-    text("Ethereum is a schelling point for the hopeful", (MARGIN-8, MARGIN + (0*MARGIN)))
+    text("“", (MARGIN-8, MARGIN + (5*MARGIN)))
+    text("E", (MARGIN+49, MARGIN + (5*MARGIN)))
+    text("ven a billion dollars of capital", (MARGIN+125, MARGIN + (5*MARGIN)))
+    text("cannot compete with", (MARGIN+64, MARGIN + (4*MARGIN)))
+    text("a project having a soul.", (MARGIN+64, MARGIN + (3*MARGIN)))
+    text("”", (MARGIN+1330, MARGIN + (3*MARGIN)))
+    font("fonts/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf")
+    fontVariations(wght=700.0) # Range: 100.0 -> 900.0
+    fontVariations(opsz=144.0) # Range: 9.0 -> 144.0
+    fontVariations(SOFT=100.0) # Range: 0.0 -> 100.0 
+    fontVariations(WONK=1.0)   # Range: 0,0 -> 1.0
+    text("—", (MARGIN+64, MARGIN + (1*MARGIN)))
+    text("Vitalik Buterin", (MARGIN+150, MARGIN + (1*MARGIN)))
 
-def draw_points():
-    vert_step = 1
-    point_step = 0
-    for j in range(11):
-        for i in range(29):
-            oval( (MARGIN-8)+(point_step) , (MARGIN-8)+(MARGIN*vert_step) ,16,16)
-            point_step += MARGIN/2
-        point_step = 0
-        vert_step += 0.5
-    point_step = 0
-
-# Build and save the image
+# Build and save the image and svg
 if __name__ == "__main__":
     draw_main_type()
-    draw_points()
-    # Save output, using the "--output" flag location
-    saveImage("quote-002-owocki.png")
-    # Print done in the terminal
+    saveImage("quote-001-vitalik.png")
+    saveImage("quote-001-vitalik.svg")
     print("DrawBot: Done :-)")

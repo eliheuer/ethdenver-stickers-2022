@@ -1,8 +1,10 @@
 from drawBot import *
 
+
 # Constants, these are the main "settings" for the image
 WIDTH, HEIGHT, MARGIN, FRAMES = 2048, 1024, 128, 1
-GRID_VIEW = True # Change this from "False" to "True" for a grid overlay
+GRID_VIEW = False # Change this from "False" to "True" for a grid overlay
+
 
 # Draws a grid
 def grid():
@@ -27,7 +29,7 @@ def draw_background():
     fill(0.9)
     rect(-2, -2, WIDTH + 2, HEIGHT + 2)
     if GRID_VIEW:
-        #grid()
+        grid()
         pass
     else:
         pass
@@ -48,7 +50,7 @@ def draw_main_type():
     fontVariations(SOFT=100.0) # Range: 0.0 -> 100.0 
     fontVariations(WONK=1.0)   # Range: 0,0 -> 1.0
     text("W", (MARGIN-5, MARGIN + (0*MARGIN)))
-    text("e can build a more solarpunk world", (MARGIN+100, MARGIN + (0*MARGIN)))
+    text("e can build a more solarpunk world", (MARGIN+102, MARGIN + (0*MARGIN)))
 
     fontSize(3500)
     font("fonts/clipart/Clipart-Regular.ttf")
@@ -57,7 +59,5 @@ def draw_main_type():
 # Build and save the image
 if __name__ == "__main__":
     draw_main_type()
-    # Save output, using the "--output" flag location
     saveImage("quote-003-solarpunk-world.png")
-    # Print done in the terminal
     print("DrawBot: Done :-)")
